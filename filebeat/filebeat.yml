@@ -1,0 +1,28 @@
+######################## Filebeat Configuration ############################
+
+# This file is a full configuration example documenting all non-deprecated
+# options in comments. For a shorter configuration example, that contains only
+# the most common options, please see filebeat.yml in the same directory.
+#
+# You can find the full configuration reference here:
+# https://www.elastic.co/guide/en/beats/filebeat/index.html
+
+#=========================== Filebeat inputs =============================
+filebeat.config.inputs:
+  enabled: true
+  path: /data/elk/filebeat/config/*.yml
+  reload.enabled: true
+  reload.period: 10s
+
+#================================ Outputs ======================================
+#----------------------------- Logstash output ---------------------------------
+output.logstash:
+# Boolean flag to enable or disable the output module.
+  enabled: true
+  hosts: ["logstash:5044"]
+
+#Use the old way to have same monitoring cluster in UI
+xpack.monitoring:
+  enabled: true
+  elasticsearch:
+    hosts: ["http://elasticsearch:9200"]

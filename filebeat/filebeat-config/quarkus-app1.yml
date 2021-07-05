@@ -1,0 +1,14 @@
+- type: log
+  enabled: true
+  paths:
+    - /data/elk/app1/app1.log
+  multiline.pattern: '^20'
+  multiline.negate: true
+  multiline.match: after
+  fields:
+    app_id: app1
+    app_module: quarkus-greetings
+    log_type: java
+    env: docker
+  fields_under_root: true
+  exclude_files: ['\.gz$']

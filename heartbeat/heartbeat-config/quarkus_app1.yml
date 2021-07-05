@@ -1,0 +1,32 @@
+- type: http # monitor type `http`. Connect via HTTP an optionally verify response
+  # ID used to uniquely identify this monitor in elasticsearch even if the config changes
+  id: quarkus-app1-monitor
+
+  # Human readable display name for this service in Uptime UI and elsewhere
+  name: Quarkus App1 Liveness Probe
+
+  # Enable/Disable monitor
+  #enabled: true
+
+  # Configure task schedule
+  schedule: '@every 10s' # every 5 seconds from start of beat
+
+  # Configure URLs to ping
+  urls: ["http://quarkus-app1:8080/q/health/live"]
+
+  ipv4: true
+  
+  # Total test connection and data exchange timeout
+  timeout: 16s
+
+  # Expected response settings
+  check.response:
+    # Expected status code. If not configured or set to 0 any status code not
+    # being 404 is accepted.
+    status: 200
+
+    json:
+    - description: Check the content of response
+      condition:
+       equals:
+         status: "UP"
