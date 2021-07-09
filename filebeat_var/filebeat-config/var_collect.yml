@@ -1,0 +1,34 @@
+- type: container
+  #just for dedicated case to collect from docker root directory
+  enabled: false
+  paths: "/var/lib/docker/containers/*/*.log"
+  stream: "all"
+  scan_frequency: 10s
+  processors:
+    - add_docker_metadata:
+        host: "unix:///var/run/docker.sock"
+    - drop_event:
+        when:
+          equals:
+            container.name: "filebeat_var"
+    - include_fields:
+        when:
+          has_fields: ["container.name"]
+        fields: ["container.name", "message"]
+    - drop_fields:
+        when:
+          has_fields: ["container.name"]
+        fields: ["log.file.path", "container.id", "agent.hostname", "agent.ephemeral_id", "agent.id", "agent.name"]
+        ignore_missing: false
+  include_lines: ['^20']
+  multiline.pattern: '^20'
+  multiline.negate: true
+  multiline.match: after
+  fields:
+    app_id: docker
+    env: staging
+    region: asia
+    log_type: varlogs
+  ignore_older: 24h
+  fields_under_root: true
+  exclude_files: ['\.gz$']
