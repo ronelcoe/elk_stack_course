@@ -89,6 +89,17 @@ services:
       - "$PWD/filebeat/filebeat-config:/data/elk/filebeat/config/"
       - log_drive:/data/elk/
 
+  # filebeat_var:
+  #   image: filebeat_7.13.2
+  #   container_name: filebeat_var
+  #   build:
+  #     context: filebeat_var
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - "$PWD/filebeat_var/filebeat-config:/data/elk/filebeat/config/"
+  #     - /var/lib/docker/containers:/var/lib/docker/containers:ro
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+
   quarkus-app1:
     image: ronelcoe/quarkus-app1:1.0
     container_name: quarkus-app1
